@@ -12,7 +12,9 @@ import chess.Position;
  */
 public class Rook extends Piece {
 
-	boolean moveUp, moveDown, moveLeft, moveRight;
+	// These variables help us to identify when to stop searching in a particular direction.
+	// i.e. if the position is out of board or if there is a collision with opposite color player
+	boolean canMoveUp, canMoveDown, canMoveLeft, canMoveRight;
 
 	public Rook(Player owner) {
 		super(owner);
@@ -46,12 +48,20 @@ public class Rook extends Piece {
 			// possible moves for Rook to go RIGHT
 			allValidPositions.addAll(getMovesForOffset(currentState, currentPosition, i, 0));
 
-			if((moveLeft == false) && (moveRight == false) && (moveUp == false) && (moveDown == false))
+			if((canMoveLeft == false) && (canMoveRight == false) && (canMoveUp == false) && (canMoveDown == false))
 				break;
 		}    	
 		return allValidPositions;
 	}
 
+	/**@author Amit
+	 * Return a set of all possible moves for given direction for a Rook
+	 * @param currentState The current state of the game
+	 * @param currentPosition The current position of the Bishop
+	 * @param xOffset - movement on X Axis
+	 * @param YOffset - movement on Y Axis
+	 * @return Set of valid positions in given direction determined by Offset
+	 */
 	private Set<Position> getMovesForOffset(GameState currentState, Position currentPosition, int xOffset, int yOffset){
 		Set<Position> validOffsetPositions = new HashSet<Position>();
 
@@ -82,23 +92,23 @@ public class Rook extends Piece {
 		if(Math.signum(xOffset) == 0){
 			//UP
 			if(Math.signum(yOffset) == 1){
-				this.moveUp = false;
+				this.canMoveUp = false;
 			}else{ //Down
-				this.moveDown = false;
+				this.canMoveDown = false;
 			}
 		}else{		
 			//RIGHT
 			if(Math.signum(xOffset) == 1){
-				this.moveRight = false;
+				this.canMoveRight = false;
 			}else{ //LEFT
-				this.moveLeft = false;
+				this.canMoveLeft = false;
 			}			
 
 		}
 	}
 
 	/**@author Amit
-	 * Check if the Bishop can move in a direction defined by offsets
+	 * Check if the Rook can move in a direction defined by offsets
 	 * @param xOffset - movement on X Axis
 	 * @param YOffset - movement on Y Axis
 	 * @return True if it can move in the given direction else return False
@@ -108,29 +118,29 @@ public class Rook extends Piece {
 		if(Math.signum(xOffset) == 0){
 			//UP
 			if(Math.signum(yOffset) == 1){
-				return this.moveUp;
+				return this.canMoveUp;
 			}else{ //Down
-				return this.moveDown;
+				return this.canMoveDown;
 			}
 		}else{		
 			//RIGHT
 			if(Math.signum(xOffset) == 1){
-				return this.moveRight;
+				return this.canMoveRight;
 			}else{ //LEFT
-				return this.moveLeft;
+				return this.canMoveLeft;
 			}			
 
 		}
 	}
 
 	/**@author Amit
-	 * Set all the directions that bishop can move to true.
+	 * Set all the directions that Rook can move to true.
 	 */
 	private void setDirectionsTrue(){
-		this.moveDown = true;
-		this.moveLeft = true;
-		this.moveRight = true;
-		this.moveUp = true;
+		this.canMoveDown = true;
+		this.canMoveLeft = true;
+		this.canMoveRight = true;
+		this.canMoveUp = true;
 	}
 
 }

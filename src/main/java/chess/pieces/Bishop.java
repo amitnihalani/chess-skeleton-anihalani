@@ -137,7 +137,7 @@ public class Bishop extends Piece {
 			}			
 		}
 	}
-	
+
 	/**@author Amit
 	 * Set all the directions that bishop can move to true.
 	 */
